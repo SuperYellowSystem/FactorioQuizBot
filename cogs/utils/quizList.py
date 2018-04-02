@@ -9,6 +9,7 @@ from tzlocal import get_localzone
 import discord
 
 import random
+import os
 
 import config
 from language.i18n import I18N
@@ -77,7 +78,9 @@ class QuizList:
         self.__item_list = []
         self.__index = -1
 
-        file = f'questions/QCM_Factorio_{config.LANGUAGE}.xlsx'
+        path = os.path.dirname(os.path.abspath(__file__))
+        index = path.find("\\cogs")
+        file = f'{path[:index]}/questions/QCM_Factorio_{config.LANGUAGE}.xlsx'
         wb = load_workbook(filename=file, read_only=True)
         ws = wb['quiz']
         for row in range(1, ws.max_row):

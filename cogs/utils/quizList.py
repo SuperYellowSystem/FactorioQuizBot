@@ -79,7 +79,10 @@ class QuizList:
         self.__index = -1
 
         path = os.path.dirname(os.path.abspath(__file__))
-        index = path.find("\\cogs")
+        if os.name == 'nt':
+            index = path.find("\\cogs")
+        else:
+            index = path.find("/cogs")
         file = f'{path[:index]}/questions/QCM_Factorio_{config.LANGUAGE}.xlsx'
         wb = load_workbook(filename=file, read_only=True)
         ws = wb['quiz']

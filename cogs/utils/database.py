@@ -62,9 +62,8 @@ class Database:
     # Inputs data ======================================================
     @staticmethod
     def _insert_new_config(cursor, data: dict):
-        cursor.execute("""
-            INSERT INTO guild_config(guild_id, prefix, language, delete_msg)
-            VALUES(:guild_id, :prefix, :language, :delete_msg)""", data)
+        cursor.execute(" INSERT INTO guild_config(guild_id, prefix, language, delete_msg) VALUES(?, ?, ?, ?)",
+                       (data["guild_id"], data["prefix"], data["language"].get_language(), data["delete_msg"],))
 
     @staticmethod
     def _insert_new_score(cursor, data: dict):

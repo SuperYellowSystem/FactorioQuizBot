@@ -24,11 +24,12 @@ class Admin:
     async def print_cfg(self, ctx):
         try:
             for config in self.bot.db.configs:
-                if ctx.guild == config["guild_id"]:
+                if ctx.guild.id == config["guild_id"]:
                     await ctx.send(f'guild: {config["guild_id"]}\n'
                                    f'prefix: {config["prefix"]}\n'
-                                   f'language: {config["language"]}\n'
+                                   f'language: {config["language"].get_language()}\n'
                                    f'delete_msg: {config["delete_msg"]}')
+                    break
             else:
                 await ctx.send("Weird! There is no config for your guild.")
         except Exception as e:

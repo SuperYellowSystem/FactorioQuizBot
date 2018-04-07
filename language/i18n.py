@@ -13,6 +13,7 @@ class I18N:
     """ Internationalization """
 
     def __init__(self, lang):
+        self.lang = lang
         self.name = None
         self.dateTimeFormat = None
 
@@ -86,3 +87,6 @@ class I18N:
             if lang == language:
                 return True
         return False
+
+    def get_language(self):
+        return self.lang

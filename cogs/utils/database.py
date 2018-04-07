@@ -4,6 +4,8 @@
 import sqlite3
 import os
 
+from language.i18n import I18N
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -129,8 +131,10 @@ class Database:
         return {
             "guild_id": guild_id,
             "prefix": prefix,
-            "language": language,
-            "delete_msg": delete_msg
+            "language": I18N(language),
+            "delete_msg": delete_msg,
+            "isQuizStarted": False,
+            "questions": None
         }
 
     @staticmethod

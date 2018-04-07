@@ -5,9 +5,6 @@ from discord.ext import commands as cmds
 
 from cogs.utils.quizList import QuizList, solution_index
 
-import config
-from language.i18n import I18N
-
 import logging
 logger = logging.getLogger(__name__)
 
@@ -16,20 +13,22 @@ logger = logging.getLogger(__name__)
 class Quiz:
     def __init__(self, bot):
         self.bot = bot
-        self.i18n = I18N(config.LANGUAGE)
-        self.started = False
-        self.quizList = QuizList()
 
     @cmds.command(name="startQuiz", aliases=["train", "quiz", "trial"])
     async def start_quiz(self, ctx):
-        if self.started:
-            await ctx.send(self.i18n.cmdStartTrain_started)
+        # retrieve guild config
+        guild_config = next(cfg for cfg in self.bot.db.configs if cfg["guild_id"] == ctx.guild.id)
+
+        if guild_config["isQuizStarted"]:
+            await ctx.send(guild_config["language"].cmdStartTrain_started)
             return
 
         # start quiz
-        self.started = True
-        while self.started:
-            item = self.quizList.select_next_item()
+        guild_config["isQuizStarted"] = True
+        # TODO: Maybe load quiz while bot startup and check here if questions else generate
+        guild_config["questions"] = QuizList(guild_config["language"])
+        while guild_config["isQuizStarted"]:
+            item = guild_config["questions"].select_next_item()
             solution = item.get_solution()
             last_msg = await ctx.send(embed=item.create_item_embed())
             for i in range(item.get_nb_answers()):
@@ -43,15 +42,15 @@ class Quiz:
 
             reaction, user = await self.bot.wait_for('reaction_add', check=check)
             if str(reaction.emoji) == solution:
-                await ctx.send(self.i18n.cmdStartTrain_pass. format(solution))
+                await ctx.send(guild_config["language"].cmdStartTrain_pass. format(solution))
             elif str(reaction.emoji) == '\U0000274C':
-                self.started = False
-                await ctx.send(self.i18n.cmdStartTrain_stop)
+                guild_config["isQuizStarted"] = False
+                await ctx.send(guild_config["language"].cmdStartTrain_stop)
             else:
-                await ctx.send(self.i18n.cmdStartTrain_wrong.format(solution))
+                await ctx.send(guild_config["language"].cmdStartTrain_wrong.format(solution))
 
         # Quiz stopped, Time to delete messages if wanted
-        if config.DELETE_MESSAGES:
+        if guild_config["delete_msg"]:
             def is_me(m):
                 if m.author == self.bot.user:
                     return True
@@ -66,7 +65,7 @@ class Quiz:
             await ctx.channel.purge(limit=100, check=is_me)
 
         # Change questions order
-        self.quizList.shuffle_list()
+        guild_config["questions"].shuffle_list()
 
 
 # ======================================================================

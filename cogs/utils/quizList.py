@@ -6,13 +6,10 @@ from openpyxl import load_workbook
 import datetime
 from tzlocal import get_localzone
 
-import discord
+from discord import Embed
 
 import random
 import os
-
-import config
-from language.i18n import I18N
 
 import logging
 logger = logging.getLogger(__name__)
@@ -30,7 +27,7 @@ class QuizItem:
     """
     This class represent an item(question) of the quiz.
     """
-    def __init__(self, qid, question, answers, solution, difficulty):
+    def __init__(self, i18n, qid, question, answers, solution, difficulty):
         """
         Create a simple item with question/answer information
 
@@ -40,7 +37,7 @@ class QuizItem:
         :param solution: the index of the correct answer
         :param difficulty: the difficulty of the question
         """
-        self.i18n = I18N(config.LANGUAGE)
+        self.i18n = i18n
         self.__qid = qid
         self.__question = question
         self.__answers = answers
@@ -49,7 +46,7 @@ class QuizItem:
 
     def create_item_embed(self):
         time = datetime.datetime.now(get_localzone())
-        embed = discord.Embed(colour=3447003, timestamp=time)
+        embed = Embed(colour=3447003, timestamp=time)
         answer_code = ord('A')
         output_answers = ""
         for answer in self.__answers:
@@ -71,7 +68,7 @@ class QuizList:
     """
     This class generate and store all the items(questions) for the quiz
     """
-    def __init__(self):
+    def __init__(self, i18n):
         """
         Generate a list of item from a xlsx file and store it in a list
         """
@@ -83,7 +80,7 @@ class QuizList:
             index = path.find("\\cogs")
         else:
             index = path.find("/cogs")
-        file = f'{path[:index]}/questions/QCM_Factorio_{config.LANGUAGE}.xlsx'
+        file = f'{path[:index]}/questions/QCM_Factorio_{i18n.get_language()}.xlsx'
         wb = load_workbook(filename=file, read_only=True)
         ws = wb['quiz']
         for row in range(1, ws.max_row):
@@ -100,7 +97,7 @@ class QuizList:
                 answers = [answer1, answer2]
             else:
                 answers = [answer1, answer2, answer3, answer4]
-            self.__item_list.append(QuizItem(qid, question, answers, solution, difficulty))
+            self.__item_list.append(QuizItem(i18n, qid, question, answers, solution, difficulty))
 
         random.shuffle(self.__item_list)
 

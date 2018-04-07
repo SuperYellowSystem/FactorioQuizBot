@@ -38,7 +38,7 @@ class Quiz:
             def check(r, u):
                 return (str(r.emoji) == '\U0001F1E6' or str(r.emoji) == '\U0001F1E7' or str(r.emoji)
                         == '\U0001F1E8' or str(r.emoji) == '\U0001F1E9' or str(r.emoji) == '\U0000274C') \
-                       and u is not last_msg.author
+                       and u is not last_msg.author and r.message.id == last_msg.id
 
             reaction, user = await self.bot.wait_for('reaction_add', check=check)
             if str(reaction.emoji) == solution:

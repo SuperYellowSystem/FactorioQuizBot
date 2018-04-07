@@ -1,9 +1,6 @@
 # ======================================================================
 # imports
 # ======================================================================
-import config
-from language.i18n import I18N
-
 from discord.ext import commands as cmds
 
 import logging
@@ -14,29 +11,11 @@ logger = logging.getLogger(__name__)
 class Support:
     def __init__(self, bot):
         self.bot = bot
-        self.i18n = I18N(config.LANGUAGE)
-        # TODO: Rework this dict for dynamic help info, when adding new commands
-        self.cmdDict = {
-            # Admin
-            "load": self.i18n.cmdHelp_load,
-            "loadExt": self.i18n.cmdHelp_loadExt,
-            "unload": self.i18n.cmdHelp_unload,
-            "unloadExt": self.i18n.cmdHelp_unloadExt,
-            "reload": self.i18n.cmdHelp_reload,
-            "reloadExt": self.i18n.cmdHelp_reloadExt,
-            # General
-            "ping": self.i18n.cmdHelp_ping,
-            "pingExt": self.i18n.cmdHelp_pingExt,
-            "serverInfo": self.i18n.cmdHelp_serverInfo,
-            "serverInfoExt": self.i18n.cmdHelp_serverInfoExt,
-            "userInfo": self.i18n.cmdHelp_userInfo,
-            "userInfoExt": self.i18n.cmdHelp_userInfoExt,
-            "botInfo": self.i18n.cmdHelp_botInfo,
-            "botInfoExt": self.i18n.cmdHelp_botInfoExt,
-            # Quiz
-            "startQuiz": self.i18n.cmdHelp_startQuiz,
-            "startQuizExt": self.i18n.cmdHelp_startQuizExt,
-        }
+
+    def _get_text(self, ctx, name: str):
+        # retrieve guild config
+        guild_config = next(cfg for cfg in self.bot.db.configs if cfg["guild_id"] == ctx.guild.id)
+        return getattr(guild_config["language"], f'cmdHelp_{name}', "undefined")
 
     def _display_cmd_from_cog(self, ctx, cog_name, is_support):
         # get longest command name length
@@ -48,7 +27,7 @@ class Support:
             if is_support and cmd.name == "help":
                 continue
             else:
-                msg += f'{ctx.prefix}{cmd.name:<{longest}} :: {self.cmdDict.get(cmd.name,"undefined")}\n'
+                msg += f'{ctx.prefix}{cmd.name:<{longest}} :: {self._get_text(ctx, cmd.name)}\n'
         return msg
 
     @staticmethod
@@ -63,6 +42,10 @@ class Support:
     @cmds.command(aliases=["commands", "cmd"])
     async def help(self, ctx, *, command: str=None):
         """Shows this message."""
+
+        # retrieve guild config
+        guild_config = next(cfg for cfg in self.bot.db.configs if cfg["guild_id"] == ctx.guild.id)
+
         if command is None:
             # Displays help message
             msg = f"= Command List =\n\n[Use {ctx.prefix}help <commandname> for details]\n"
@@ -88,12 +71,12 @@ class Support:
                 await ctx.send(ctx.bot.command_not_found.format(command))
                 return
 
-            msg = f'= {cmd.name} =\n{self.cmdDict.get(cmd.name, "undefined")}\n'
-            details = self.cmdDict.get(cmd.name+"Ext", "undefined")
+            msg = f'= {cmd.name} =\n{self._get_text(ctx, cmd.name)}\n'
+            details = self._get_text(ctx, cmd.name+"Ext")
             if details != "undefined":
                 aliases = ""
                 if len(cmd.aliases) != 0:
-                    aliases = self.i18n.cmdHelp_alias
+                    aliases = guild_config["language"].cmdHelp_alias
                     for alias in cmd.aliases:
                         aliases += alias + ", "
                     aliases = aliases[:-2]

@@ -55,6 +55,8 @@ def localization(self):
     self.cmdUserInfo_joined = "Membre depuis le"
     self.cmdUserInfo_footer = "Information utilisateur"
     self.cmdUserInfo_day = "{0}\n({1} jours auparavant)"
+    self.cmdUserInfo_badArgs = "Je ne peux pas trouver ce membre..."
+    self.cmdUserInfo_missArgs = "Euuuuuhhh... Ils sont où les paramètres?!?"
 
     # stats command
     self.cmdBotInfo_title = "Information diverses"

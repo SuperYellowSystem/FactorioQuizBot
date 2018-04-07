@@ -193,10 +193,13 @@ class General:
 
     @user_info.error
     async def user_info_error(self, ctx, error):
+        # retrieve guild config
+        guild_config = next(cfg for cfg in self.bot.db.configs if cfg["guild_id"] == ctx.guild.id)
+
         if isinstance(error, cmds.BadArgument):
-            await ctx.send("I could not find that member...")
+            await ctx.send(guild_config["language"].cmdUserInfo_badArgs)
         elif isinstance(error, cmds.MissingRequiredArgument):
-            await ctx.send("Meehh... Where are the arguments?")
+            await ctx.send(guild_config["language"].cmdUserInfo_missArgs)
         else:
             print(error)
 

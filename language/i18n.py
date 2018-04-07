@@ -52,6 +52,8 @@ class I18N:
         self.cmdUserInfo_joined = None
         self.cmdUserInfo_footer = None
         self.cmdUserInfo_day = None
+        self.cmdUserInfo_badArgs = None
+        self.cmdUserInfo_missArgs = None
 
         self.cmdBotInfo_title = None
         self.cmdBotInfo_desc = None

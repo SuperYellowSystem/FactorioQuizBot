@@ -3,6 +3,8 @@
 # ======================================================================
 import config
 
+import discord
+from discord import Forbidden
 from discord.ext import commands
 
 import os
@@ -23,22 +25,23 @@ logLevelDict = {
 
 class FactorioQuizBot(commands.Bot):
     def __init__(self):
+        self.prefix = config.PREFIX
 
         # Load database
         self.db = Database()
         self.db.create_tables()
         self.db.load_data()
 
-        super().__init__(command_prefix=config.PREFIX, description=config.DESCRIPTION, pm_help=None)
-        self.remove_command("help")
+        super().__init__(command_prefix=self.get_prefix, description=config.DESCRIPTION, pm_help=None)
 
-        # Load cogs
-        for cog in initial_cogs:
-            try:
-                self.load_extension(cog)
-                logger.info(f'{cog} successfully loaded.')
-            except Exception as e:
-                logger.error(f'Failed to load extension {cog}.', e)
+    async def get_prefix(self, message):
+        prefixes = set()
+        if isinstance(message.channel, discord.abc.PrivateChannel):
+            prefixes.add(self.prefix)
+            return commands.when_mentioned_or(*prefixes)(bot, message)
+        guild_config = next(cfg for cfg in self.db.configs if cfg["guild_id"] == message.guild.id)
+        prefixes.add(guild_config["prefix"])
+        return commands.when_mentioned_or(*prefixes)(bot, message)
 
     def create_config_guild(self, guild):
         for cfg in self.db.configs:
@@ -57,8 +60,26 @@ class FactorioQuizBot(commands.Bot):
         for guild in self.guilds:
             self.create_config_guild(guild)
 
-        # Change name
-        await self.user.edit(username=f'[{config.PREFIX}] FactorioBot')
+        try:
+            for g in self.guilds:
+                guild_config = next(cfg for cfg in self.db.configs if cfg["guild_id"] == g.id)
+                bot_member = g.get_member(config.BOT_ID)
+                if bot_member is None:
+                    print("ohlalala")
+                else:
+                    await bot_member.edit(nick=f'[{guild_config["prefix"]}] FactorioBot',
+                                          reason="FactorioBot's prefix has changed")
+        except Forbidden as forbidError:
+            print(forbidError)
+
+        # Load cogs
+        self.remove_command("help")
+        for cog in initial_cogs:
+            try:
+                self.load_extension(cog)
+                logger.info(f'{cog} successfully loaded.')
+            except Exception as e:
+                logger.error(f'Failed to load extension {cog}.', e)
 
     async def on_guild_join(self, guild):
         """Event called when client join a guild or client create a new guild"""
@@ -76,7 +97,6 @@ class FactorioQuizBot(commands.Bot):
 
 # ======================================================================
 if __name__ == '__main__':
-    # set up logging
     logger = logging.getLogger('discord')
     logger.setLevel(logLevelDict.get(config.LOG_LEVEL, 3))
     path_to_dir = os.getcwd() + "/logs"

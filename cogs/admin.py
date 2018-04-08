@@ -6,6 +6,7 @@ from discord.ext import commands as cmds
 from cogs.utils import checks
 from language.i18n import I18N, supported_language
 
+import config
 import logging
 logger = logging.getLogger(__name__)
 
@@ -60,6 +61,9 @@ class Admin:
                     guild_config[arg] = value
                     self.bot.db.edit_config(arg, value, guild_config["guild_id"])
                     await ctx.send(f'**{arg}** {guild_config["language"].cmdEditConfig_configured} **{value}**')
+                    if arg == "prefix":
+                        await ctx.guild.get_member(config.BOT_ID).edit(nick=f'[{guild_config["prefix"]}] FactorioBot',
+                                                                       reason="FactorioBot's prefix has changed")
                 else:
                     await ctx.send(f'**{arg}** {guild_config["language"].cmdEditConfig_syntaxError}')
         except StopIteration as stopItE:

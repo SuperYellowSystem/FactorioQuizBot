@@ -59,6 +59,9 @@ class FactorioQuizBot(commands.Bot):
         for guild in self.guilds:
             self.create_config_guild(guild)
 
+        # Change name
+        await self.user.edit(username=f'[{config.PREFIX}] FactorioBot')
+
     async def on_guild_join(self, guild):
         """Event called when client join a guild or client create a new guild"""
 

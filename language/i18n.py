@@ -76,6 +76,16 @@ class I18N:
 
         self.cmdQuizList_difficulty = None
 
+        self.cmdConfig_iterError = None
+        self.cmdConfig_error = None
+
+        self.cmdEditConfig_iterError = None
+        self.cmdEditConfig_error = None
+        self.cmdEditConfig_syntaxError = None
+        self.cmdEditConfig_alrdyConfigured = None
+        self.cmdEditConfig_unSupportedLang = None
+        self.cmdEditConfig_configured = None
+
         # language selection
         if self._is_supported(lang):
             selected_lang = importlib.import_module("language."+lang)

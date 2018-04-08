@@ -74,7 +74,7 @@ def localization(self):
     self.cmdBotInfo_cpu = "CPU utilisé"
     self.cmdBotInfo_lib = "Bibliothèque"
 
-    # quiz ============================================================
+    # quiz =============================================================
     # start_training_quiz
     self.cmdStartTrain_started = "Le quiz est déjà lancé!"
     self.cmdStartTrain_pass = "Bravo!!! {0} était bien la bonne réponse."
@@ -83,3 +83,16 @@ def localization(self):
 
     # quizList
     self.cmdQuizList_difficulty = "Difficulté"
+
+    # admin ============================================================
+    # show_config
+    self.cmdConfig_iterError = None
+    self.cmdConfig_error = None
+
+    # edit_config
+    self.cmdEditConfig_iterError = None
+    self.cmdEditConfig_error = None
+    self.cmdEditConfig_syntaxError = None
+    self.cmdEditConfig_alrdyConfigured = None
+    self.cmdEditConfig_unSupportedLang = None
+    self.cmdEditConfig_configured = None

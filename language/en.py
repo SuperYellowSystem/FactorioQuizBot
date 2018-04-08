@@ -78,3 +78,12 @@ def localization(self):
     # quizList
     self.cmdQuizList_difficulty = "Difficulty"
 
+    # admin ============================================================
+    # show_config
+
+    # edit_config
+    self.cmdEditConfig_syntaxError = "is not an element of the config. Please check the syntax!"
+    self.cmdEditConfig_alrdyConfigured = "is already configured to"
+    self.cmdEditConfig_unSupportedLang = "is not a supported language.\nCurrently supported:"
+    self.cmdEditConfig_configured = "is now configured to"
+

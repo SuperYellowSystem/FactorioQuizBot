@@ -2,9 +2,9 @@
 # imports
 # ======================================================================
 from discord.ext import commands as cmds
-import traceback
 
 from cogs.utils import checks
+from language.i18n import I18N, supported_language
 
 import logging
 logger = logging.getLogger(__name__)
@@ -18,23 +18,54 @@ class Admin:
         self.bot = bot
 
     @checks.is_admin()
-    @cmds.command(name="config")
-    async def print_cfg(self, ctx):
+    @cmds.command(name="config", aliases=["show", "showConfig"])
+    async def show_config(self, ctx):
         try:
-            for config in self.bot.db.configs:
-                if ctx.guild.id == config["guild_id"]:
-                    await ctx.send(f'guild: {config["guild_id"]}\n'
-                                   f'prefix: {config["prefix"]}\n'
-                                   f'language: {config["language"].get_language()}\n'
-                                   f'delete_msg: {config["delete_msg"]}')
-                    break
-            else:
-                await ctx.send("Weird! There is no config for your guild.")
+            guild_config = next(cfg for cfg in self.bot.db.configs if cfg["guild_id"] == ctx.guild.id)
+            msg = ""
+            for key, value in guild_config.items():
+                if key == "guild_id" or key == "isQuizStarted" or key == "questions":
+                    continue
+                elif key == "language":
+                    msg += f'{key} :: {value.get_language()}\n'
+                else:
+                    msg += f'{key} :: {value}\n'
+            await ctx.send(f'```asciidoc\n== {ctx.guild.name} ==\n{msg}```')
+        except StopIteration as stopItE:
+            logger.error(f'Error: cannot find a config for guild {ctx.guild.name}', stopItE)
         except Exception as e:
-            logger.error("Error while printing config", e)
-            await ctx.send(f'```py\n{traceback.format_exc()}\n```')
-        else:
-            await ctx.send('\N{OK HAND SIGN}')
+            logger.error("Error while displaying config", e)
+
+    @checks.is_admin()
+    @cmds.command(name="edit", aliases=["editConfig"])
+    async def edit_config(self, ctx, arg: str, value: str):
+        try:
+            guild_config = next(cfg for cfg in self.bot.db.configs if cfg["guild_id"] == ctx.guild.id)
+            if arg == "guild_id" or arg == "isQuizStarted" or arg == "questions":
+                return
+            elif arg == "language":
+                if value not in supported_language:
+                    await ctx.send(f'**{value}** {guild_config["language"].cmdEditConfig_unsupportedLang} '
+                                   f'{supported_language}')
+                elif value == guild_config["language"].get_language():
+                    await ctx.send(f'**{arg}** {guild_config["language"].cmdEditConfig_alrdyConfigured} **{value}**.')
+                else:
+                    guild_config[arg] = I18N(value)
+                    self.bot.db.edit_config(arg, value, guild_config["guild_id"])
+                    await ctx.send(f'**{arg}** {guild_config["language"].cmdEditConfig_configured} **{value}**')
+            else:
+                if value == guild_config[arg]:
+                    await ctx.send(f'**{arg}** {guild_config["language"].cmdEditConfig_alrdyConfigured} **{value}**.')
+                elif arg in guild_config:
+                    guild_config[arg] = value
+                    self.bot.db.edit_config(arg, value, guild_config["guild_id"])
+                    await ctx.send(f'**{arg}** {guild_config["language"].cmdEditConfig_configured} **{value}**')
+                else:
+                    await ctx.send(f'**{arg}** {guild_config["language"].cmdEditConfig_syntaxError}')
+        except StopIteration as stopItE:
+            logger.error(f'Error: cannot find a config for guild {ctx.guild.name}', stopItE)
+        except Exception as e:
+            logger.error("Error while editing config", e)
 
 
 # ======================================================================

@@ -9,7 +9,7 @@ import os
 import logging
 from cogs.utils.database import Database
 
-initial_cogs = {"cogs.admin", "cogs.general", "cogs.support", "cogs.quiz"}
+initial_cogs = {"cogs.admin", "cogs.general", "cogs.support", "cogs.quiz", "cogs.owner"}
 
 # ======================================================================
 logLevelDict = {

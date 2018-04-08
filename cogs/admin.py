@@ -33,6 +33,7 @@ class Admin:
             else:
                 await ctx.send("Weird! There is no config for your guild.")
         except Exception as e:
+            logger.error("Error while printing config", e)
             await ctx.send(f'```py\n{traceback.format_exc()}\n```')
         else:
             await ctx.send('\N{OK HAND SIGN}')
@@ -43,6 +44,7 @@ class Admin:
         try:
             self.bot.load_extension(module)
         except Exception as e:
+            logger.error(f'Error while loading cog {module}', e)
             await ctx.send(f'```py\n{traceback.format_exc()}\n```')
         else:
             await ctx.send('\N{OK HAND SIGN}')
@@ -53,6 +55,7 @@ class Admin:
         try:
             self.bot.unload_extension(module)
         except Exception as e:
+            logger.error(f'Error while unloading cog {module}', e)
             await ctx.send(f'```py\n{traceback.format_exc()}\n```')
         else:
             await ctx.send('\N{OK HAND SIGN}')
@@ -64,6 +67,7 @@ class Admin:
             self.bot.unload_extension(module)
             self.bot.load_extension(module)
         except Exception as e:
+            logger.error(f'Error while reloading cog {module}', e)
             await ctx.send(f'```py\n{traceback.format_exc()}\n```')
         else:
             await ctx.send('\N{OK HAND SIGN}')

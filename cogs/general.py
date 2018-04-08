@@ -80,7 +80,7 @@ class General:
 
         # send 3rd message for display roundtrip time
         embed = self._create_embed(guild_config["language"].cmdPing_roundtrip.format(self._get_roundtrip(msg),
-                                                                      round(self.bot.latency, 2)))
+                                                                                     round(self.bot.latency, 2)))
         await msg.edit(embed=embed)
 
     # ==================================================================
@@ -139,16 +139,19 @@ class General:
         embed = discord.Embed(colour=3447003, title=guild_config["language"].cmdBotInfo_title,
                               description=guild_config["language"].cmdBotInfo_desc,
                               timestamp=time)
-        embed.add_field(name=guild_config["language"].cmdBotInfo_status, value=guild_config["language"].cmdBotInfo_statusVal)
+        embed.add_field(name=guild_config["language"].cmdBotInfo_status,
+                        value=guild_config["language"].cmdBotInfo_statusVal)
         embed.add_field(name=guild_config["language"].cmdBotInfo_uptime, value=uptime)
-        embed.add_field(name=guild_config["language"].cmdBotInfo_latency, value="{0} ms".format(round(self.bot.latency, 2)))
+        embed.add_field(name=guild_config["language"].cmdBotInfo_latency,
+                        value="{0} ms".format(round(self.bot.latency, 2)))
         embed.add_field(name=guild_config["language"].cmdBotInfo_guilds, value="{0}".format(len(self.bot.guilds)))
         embed.add_field(name=guild_config["language"].cmdBotInfo_members,
                         value=guild_config["language"].cmdBotInfo_membersVal.format(online_mem_count, total_mem_count))
         embed.add_field(name=guild_config["language"].cmdBotInfo_channels, value="{0}".format(chan_count))
         embed.add_field(name=guild_config["language"].cmdBotInfo_ram,
                         value="{:.2f} MiB".format(self.process.memory_full_info().uss / 2 ** 20))
-        embed.add_field(name=guild_config["language"].cmdBotInfo_cpu, value="{:.2f}% CPU".format(self.process.cpu_percent()))
+        embed.add_field(name=guild_config["language"].cmdBotInfo_cpu,
+                        value="{:.2f}% CPU".format(self.process.cpu_percent()))
         embed.add_field(name=guild_config["language"].cmdBotInfo_lib, value="discord.py (rewrite)")
         embed.set_footer(text="Bot ID: {0}".format(self.bot.user.id))
         await ctx.send(embed=embed)

@@ -7,7 +7,6 @@ from discord.ext import commands
 
 import os
 import logging
-import traceback
 from cogs.utils.database import Database
 
 initial_cogs = {"cogs.admin", "cogs.general", "cogs.support", "cogs.quiz"}
@@ -39,8 +38,7 @@ class FactorioQuizBot(commands.Bot):
                 self.load_extension(cog)
                 logger.info(f'{cog} successfully loaded.')
             except Exception as e:
-                print(f'Failed to load extension {cog}.')
-                traceback.print_exc(limit=-1)
+                logger.error(f'Failed to load extension {cog}.', e)
 
     def create_config_guild(self, guild):
         for cfg in self.db.configs:

@@ -243,23 +243,23 @@ if __name__ == '__main__':
         # RETRIEVE DATA ========
         db.load_data()
 
-        for config in db.configs:
+        for cfg in db.configs:
             print(f'------------------------\n'
-                  f'guild: {config["guild_id"]}\n'
-                  f'prefix: {config["prefix"]}\n'
-                  f'language: {config["language"]}\n'
-                  f'delete_msg: {config["delete_msg"]}')
+                  f'guild: {cfg["guild_id"]}\n'
+                  f'prefix: {cfg["prefix"]}\n'
+                  f'language: {cfg["language"]}\n'
+                  f'delete_msg: {cfg["delete_msg"]}')
 
         print("\n")
 
-        for score in db.scores:
+        for s in db.scores:
             print(f'------------------------\n'
-                  f'guild: {score["guild_id"]}\n'
-                  f'user: {score["user_id"]}\n'
-                  f'score: {score["score"]}')
+                  f'guild: {s["guild_id"]}\n'
+                  f'user: {s["user_id"]}\n'
+                  f'score: {s["score"]}')
 
-    except Exception as e:
-        print("Error", e)
+    except Exception as error:
+        print("Error", error)
 
     finally:
         os.remove("../../data/guilds.db")

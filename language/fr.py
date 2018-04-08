@@ -86,13 +86,9 @@ def localization(self):
 
     # admin ============================================================
     # show_config
-    self.cmdConfig_iterError = None
-    self.cmdConfig_error = None
 
     # edit_config
-    self.cmdEditConfig_iterError = None
-    self.cmdEditConfig_error = None
-    self.cmdEditConfig_syntaxError = None
-    self.cmdEditConfig_alrdyConfigured = None
-    self.cmdEditConfig_unSupportedLang = None
-    self.cmdEditConfig_configured = None
+    self.cmdEditConfig_syntaxError = "n'est pas un élément de la config. Veuillez vérifier la syntaxe!"
+    self.cmdEditConfig_alrdyConfigured = "est déjà configuré en"
+    self.cmdEditConfig_unSupportedLang = "n'est pas un langage supporté.\nSont supportés:"
+    self.cmdEditConfig_configured = "est désormais configuré en"

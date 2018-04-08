@@ -23,10 +23,12 @@ class Quiz:
             await ctx.send(guild_config["language"].cmdStartTrain_started)
             return
 
+        # create questions list if needed
+        if guild_config["questions"] is None:
+            guild_config["questions"] = QuizList(guild_config["language"])
+
         # start quiz
         guild_config["isQuizStarted"] = True
-        # TODO: Maybe load quiz while bot startup and check here if questions else generate
-        guild_config["questions"] = QuizList(guild_config["language"])
         while guild_config["isQuizStarted"]:
             item = guild_config["questions"].select_next_item()
             solution = item.get_solution()

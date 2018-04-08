@@ -72,14 +72,11 @@ class FactorioQuizBot(commands.Bot):
         """Event called when guild is removed from client"""
 
         # Remove config
-        # TODO: Maybe find a better way to remove element from list
         self.db.configs = [cfg for cfg in self.db.configs if guild.id != cfg["guild_id"]]
         self.db.delete_config(guild.id)
 
 
 # ======================================================================
-# TODO: Per guild prefix
-# TODO: Create Exam mod (solo)
 if __name__ == '__main__':
     # set up logging
     logger = logging.getLogger('discord')

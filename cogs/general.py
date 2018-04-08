@@ -169,8 +169,6 @@ class General:
             member = ctx.author
 
         # Prepare embed
-        # TODO: Add user's roles
-        # TODO: Add user best score (certification?)
         time = datetime.datetime.now(get_localzone())
         created = member.created_at.strftime(guild_config["language"].dateTimeFormat)
         account_seniority = (datetime.datetime.now() - member.created_at).days

@@ -29,7 +29,7 @@ class Owner:
             logger.error(f'Error while loading cog {module}', e)
             await ctx.send(f'```py\n{traceback.format_exc()}\n```')
         else:
-            await ctx.send('\N{OK HAND SIGN}')
+            await ctx.message.add_reaction('\N{OK HAND SIGN}')
 
     @checks.is_owner()
     @cmds.command(hidden=True)
@@ -41,7 +41,7 @@ class Owner:
             logger.error(f'Error while unloading cog {module}', e)
             await ctx.send(f'```py\n{traceback.format_exc()}\n```')
         else:
-            await ctx.send('\N{OK HAND SIGN}')
+            await ctx.message.add_reaction('\N{OK HAND SIGN}')
 
     @checks.is_owner()
     @cmds.command(name='reload', hidden=True)
@@ -54,7 +54,7 @@ class Owner:
             logger.error(f'Error while reloading cog {module}', e)
             await ctx.send(f'```py\n{traceback.format_exc()}\n```')
         else:
-            await ctx.send('\N{OK HAND SIGN}')
+            await ctx.message.add_reaction('\N{OK HAND SIGN}')
 
 
 # ======================================================================

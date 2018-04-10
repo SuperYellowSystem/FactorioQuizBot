@@ -19,6 +19,7 @@ class Admin:
         self.bot = bot
 
     @checks.is_admin()
+    @checks.is_not_dm()
     @cmds.command(name="config", aliases=["show", "showConfig"])
     async def show_config(self, ctx):
         try:
@@ -38,6 +39,7 @@ class Admin:
             logger.error("Error while displaying config", e)
 
     @checks.is_admin()
+    @checks.is_not_dm()
     @cmds.command(name="edit", aliases=["editConfig"])
     async def edit_config(self, ctx, arg: str, value: str):
         try:

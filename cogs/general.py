@@ -11,6 +11,8 @@ import math
 import discord
 from discord.ext import commands as cmds
 
+from cogs.utils import checks
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -59,6 +61,7 @@ class General:
             return "{0}w {1}d {2}h {3}m {4}s".format(weeks, days, hours, minutes, seconds)
 
     # ==================================================================
+    @checks.is_not_dm()
     @cmds.command(name="ping", aliases=["pong", "pingpong"])
     async def ping(self, ctx):
         """ Shows latency and API response times.
@@ -84,6 +87,7 @@ class General:
         await msg.edit(embed=embed)
 
     # ==================================================================
+    @checks.is_not_dm()
     @cmds.command(name="serverInfo", aliases=["servInfo"])
     async def server_info(self, ctx):
         """ Displays server information & statistics.
@@ -115,6 +119,7 @@ class General:
         await ctx.send(embed=embed)
 
     # ==================================================================
+    @checks.is_not_dm()
     @cmds.command(name="botInfo", aliases=["stat", "stats", "bot"])
     async def stats(self, ctx):
         """ Displays bot information & statistics.
@@ -157,6 +162,7 @@ class General:
         await ctx.send(embed=embed)
 
     # ==================================================================
+    @checks.is_not_dm()
     @cmds.command(name="userInfo", aliases=["user"])
     async def user_info(self, ctx, *, member: discord.Member=None):
         """ Get detailed info for a nominated user.

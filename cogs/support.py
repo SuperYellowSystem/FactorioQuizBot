@@ -3,6 +3,8 @@
 # ======================================================================
 from discord.ext import commands as cmds
 
+from cogs.utils import checks
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -39,6 +41,7 @@ class Support:
                 longest = len(cmd.name)
         return longest
 
+    @checks.is_not_dm()
     @cmds.command(aliases=["commands", "cmd"])
     async def help(self, ctx, *, command: str=None):
         """Shows this message."""

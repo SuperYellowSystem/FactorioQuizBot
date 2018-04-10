@@ -21,3 +21,9 @@ def is_owner():
     async def predicate(ctx):
         return await ctx.bot.is_owner(ctx.author)
     return commands.check(predicate)
+
+
+def is_not_dm():
+    async def predicate(ctx):
+        return ctx.message.guild is not None
+    return commands.check(predicate)

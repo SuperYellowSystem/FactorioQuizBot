@@ -74,6 +74,21 @@ class I18N:
         self.cmdStartTrain_wrong = None
         self.cmdStartTrain_stop = None
 
+        self.cmdStartExam_title = None
+        self.cmdStartExam_desc = None
+        self.cmdStartExam_workflow = None
+        self.cmdStartExam_workflowDesc = None
+        self.cmdStartExam_score = None
+        self.cmdStartExam_scoreDesc = None
+        self.cmdStartExam_time = None
+        self.cmdStartExam_timeDesc = None
+        self.cmdStartExam_note = None
+        self.cmdStartExam_noteDesc = None
+        self.cmdStartExam_ResultTitle = None
+        self.cmdStartExam_better = None
+        self.cmdStartExam_bad = None
+        self.cmdStartExam_best = None
+
         self.cmdQuizList_difficulty = None
 
         self.cmdConfig_iterError = None

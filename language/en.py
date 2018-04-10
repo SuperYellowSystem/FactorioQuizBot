@@ -69,11 +69,18 @@ def localization(self):
     self.cmdBotInfo_lib = "Library"
 
     # quiz ============================================================
-    # start_training_quiz
+    # start_quiz
     self.cmdStartTrain_started = "Quiz is already running!"
     self.cmdStartTrain_pass = "Congratulation!!! {0} is the correct answer"
-    self.cmdStartTrain_wrong = "Bad answer! The correct one was {0}"
+    self.cmdStartTrain_wrong = "Bad answer! The correct one was"
     self.cmdStartTrain_stop = "Quiz is now stopped."
+
+    # start_exam
+    self.cmdStartExam_rules = "TODO: quiz begins"
+    self.cmdStartExam_better = "Your score for this session is {0}/20. You don't beat your previous score of {1}/20."
+    self.cmdStartExam_bad = "Your score for this session is {0}/20. You don't beat your previous score of {1}/20."
+    self.cmdStartExam_best = "Congratulations!!! You make a perfect score of {0}/20. Factorio have no secret" \
+                             "for you now. Your previous score was {1}/20."
 
     # quizList
     self.cmdQuizList_difficulty = "Difficulty"

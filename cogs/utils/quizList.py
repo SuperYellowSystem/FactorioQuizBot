@@ -62,18 +62,25 @@ class QuizItem:
     def get_nb_answers(self):
         return len(self.__answers)
 
+    def get_difficulty(self):
+        return self.__difficulty
+
 
 # ======================================================================
 class QuizList:
     """
     This class generate and store all the items(questions) for the quiz
     """
-    def __init__(self, i18n):
+    def __init__(self, i18n, is_exam):
         """
         Generate a list of item from a xlsx file and store it in a list
         """
         self.__item_list = []
         self.__index = -1
+
+        # index for difficulty
+        self.__diff1 = None
+        self.__diff2 = None
 
         path = os.path.dirname(os.path.abspath(__file__))
         if os.name == 'nt':
@@ -93,13 +100,21 @@ class QuizList:
             solution = ws.cell(row=row + 1, column=7).value
             answer_total = ws.cell(row=row + 1, column=8).value
             difficulty = ws.cell(row=row + 1, column=9).value
+            if self.__diff1 is None and difficulty == 2:
+                self.__diff1 = qid - 1
+            elif self.__diff2 is None and difficulty == 3:
+                self.__diff2 = qid - 1
+
             if answer_total < 4:
                 answers = [answer1, answer2]
             else:
                 answers = [answer1, answer2, answer3, answer4]
             self.__item_list.append(QuizItem(i18n, qid, question, answers, solution, difficulty))
 
-        random.shuffle(self.__item_list)
+        if is_exam:
+            self.__item_list = [*random.sample(self.__item_list[:self.__diff1], 7),
+                                *random.sample(self.__item_list[self.__diff1:self.__diff2], 5),
+                                *random.sample(self.__item_list[self.__diff2:], 8)]
 
     def select_next_item(self):
         self.__index += 1

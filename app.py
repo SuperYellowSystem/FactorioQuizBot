@@ -53,6 +53,18 @@ class FactorioQuizBot(commands.Bot):
             self.db.configs.append(new_config)
             self.db.add_new_config(new_config)
 
+    def create_score(self, guild, member):
+        if member.bot:
+            return
+        for scr in self.db.scores:
+            if guild.id == scr["guild_id"] and member.id == scr["user_id"]:
+                break
+        else:
+            # score not found in database, then create score
+            new_score = self.db.create_score(guild.id, member.id, 0)
+            self.db.scores.append(new_score)
+            self.db.save_score(new_score)
+
     async def on_ready(self):
         """Event called when the bot is ready"""
 
@@ -60,12 +72,17 @@ class FactorioQuizBot(commands.Bot):
         for guild in self.guilds:
             self.create_config_guild(guild)
 
+        # Check if members were added while offline
+        for guild in self.guilds:
+            for member in guild.members:
+                self.create_score(guild, member)
+
         try:
             for g in self.guilds:
                 guild_config = next(cfg for cfg in self.db.configs if cfg["guild_id"] == g.id)
                 bot_member = g.get_member(config.BOT_ID)
                 if bot_member is None:
-                    print("ohlalala")
+                    logger.warning(f'Cannot find FactorioBot in member list of guild {g.name}')
                 else:
                     await bot_member.edit(nick=f'[{guild_config["prefix"]}] FactorioBot',
                                           reason="FactorioBot's prefix has changed")
@@ -87,12 +104,35 @@ class FactorioQuizBot(commands.Bot):
         # Create new config
         self.create_config_guild(guild)
 
+        # Add score to each member
+        for member in guild.members:
+            self.create_score(guild, member)
+
     async def on_guild_remove(self, guild):
         """Event called when guild is removed from client"""
+
+        # Remove score from each member
+        self.db.scores = [scr for scr in self.db.scores if guild.id != scr["guild_id"]]
+        for member in guild.members:
+            self.db.delete_score(guild.id, member.id)
 
         # Remove config
         self.db.configs = [cfg for cfg in self.db.configs if guild.id != cfg["guild_id"]]
         self.db.delete_config(guild.id)
+
+    async def on_member_join(self, member):
+        """Event called when a member joins a guild."""
+
+        # Add score
+        self.create_score(member.guild, member)
+
+    async def on_member_remove(self, member):
+        """Event called when a member leave a guild."""
+
+        # Remove score
+        self.db.scores = [scr for scr in self.db.scores
+                          if member.guild.id != scr["guild_id"] and member.id == scr["user_id"]]
+        self.db.delete_score(member.guild.id, member.id)
 
 
 # ======================================================================

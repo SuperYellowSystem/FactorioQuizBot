@@ -141,7 +141,9 @@ class Database:
         return {
             "guild_id": guild_id,
             "user_id": user_id,
-            "score": score
+            "score": score,
+            "isQuizStarted": False,
+            "questions": None
         }
 
     def _load_configs(self, cursor):

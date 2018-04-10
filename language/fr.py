@@ -75,11 +75,41 @@ def localization(self):
     self.cmdBotInfo_lib = "Bibliothèque"
 
     # quiz =============================================================
-    # start_training_quiz
+    # start_quiz
     self.cmdStartTrain_started = "Le quiz est déjà lancé!"
     self.cmdStartTrain_pass = "Bravo!!! {0} était bien la bonne réponse."
-    self.cmdStartTrain_wrong = "Dommage!!! La bonne réponse était {0}"
+    self.cmdStartTrain_wrong = "Dommage!!! La bonne réponse était"
     self.cmdStartTrain_stop = "Le quiz est désormais stoppé."
+
+    # start_exam
+    self.cmdStartExam_title = "Voici quelques règles et informations concernant cet examen:"
+    self.cmdStartExam_desc = "Cet examen sert uniquement à tester tes connaissances du jeu Factorio. En aucun cas " \
+                             "réussir ce test ne fera de toi un meilleur joueur de Factorio car il y a autant de " \
+                             "façon de jouer qu'il y a de joueurs."
+    self.cmdStartExam_workflow = "Fonctionnnement:"
+    self.cmdStartExam_workflowDesc = "A chaque question posée, le bot va afficher des réactions. En cliquant sur ces " \
+                                     "réactions, tu pourras répondre aux questions. La première réaction cliquée " \
+                                     "validera la question, alors fais attention. Une fois la question validée, " \
+                                     "la question s'effacera et une nouvelle question s'affichera. A n'importe quel " \
+                                     "moment tu pourras cliquer sur \U0000274C pour arrêter l'examen si tu le  " \
+                                     "souhaites."
+    self.cmdStartExam_score = "Score:"
+    self.cmdStartExam_scoreDesc = "Il y aura au total 20 questions pour un maximum de 20 points. Toutes les " \
+                                  "questions valent le même nombre de points."
+    self.cmdStartExam_time = "Temps:"
+    self.cmdStartExam_timeDesc = "Il n'y a pas de limite de temps."
+    self.cmdStartExam_note = "Remarques:"
+    self.cmdStartExam_noteDesc = "Il peut arriver que tu répondes trop vite à une question et que le bot reste " \
+                                 "bloqué. Pour le débloquer, il faut que tu enlèves et remettes ta réponse. Pour " \
+                                 "éviter pareil cas, attend bien que toutes les réactions s'affichent avant de " \
+                                 "répondre. Pour tout problème, n'hésites pas à contacter RaideOne."
+    self.cmdStartExam_ResultTitle = "Résultat:"
+    self.cmdStartExam_better = "Ton score pour cette session est de {0}/20. Tu as battu ton précédent meilleur score " \
+                               "de {1}/20."
+    self.cmdStartExam_bad = "Ton score pour cette session est de {0}/20. Tu n'as pas battu ton meilleur score de " \
+                            "{1}/20."
+    self.cmdStartExam_best = "Félicitations!!! Tu as réalisé un score parfait de {0}/20. Factorio n'a plus de secret " \
+                             "pour toi désormais. Ton précédent meilleur score était de {1}/20."
 
     # quizList
     self.cmdQuizList_difficulty = "Difficulté"

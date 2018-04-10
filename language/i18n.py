@@ -47,11 +47,11 @@ class I18N:
         self.cmdServerInfo_created = None
         self.cmdServerInfo_roles = None
 
-        self.cmdUserInfo_name = None
         self.cmdUserInfo_created = None
         self.cmdUserInfo_joined = None
         self.cmdUserInfo_footer = None
         self.cmdUserInfo_day = None
+        self.cmdUserInfo_score = None
         self.cmdUserInfo_badArgs = None
         self.cmdUserInfo_missArgs = None
 

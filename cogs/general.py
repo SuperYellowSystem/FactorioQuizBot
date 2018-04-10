@@ -183,16 +183,26 @@ class General:
         account_seniority = (datetime.datetime.now() - member.created_at).days
         joined = member.joined_at.strftime(guild_config["language"].dateTimeFormat)
         guild_seniority = (datetime.datetime.now() - member.joined_at).days
+        user_score = next(scr for scr in self.bot.db.scores
+                          if scr["guild_id"] == ctx.guild.id and scr["user_id"] == member.id)
+        user_roles = ""
+        for i in range(len(member.roles)-1, -1, -1):
+            if member.roles[i].name == "@everyone":
+                continue
+            user_roles += f'{member.roles[i].mention} '
 
-        embed = discord.Embed(colour=member.top_role.colour, timestamp=time)
-        embed.set_author(name=guild_config["language"].cmdUserInfo_name.format(member.display_name, member.id),
-                         icon_url=member.avatar_url)
+        embed = discord.Embed(colour=member.top_role.colour, timestamp=time,
+                              title=member.display_name, description=user_roles,
+                              icon_url=member.avatar_url)
         embed.set_thumbnail(url=member.avatar_url)
         embed.add_field(name=guild_config["language"].cmdUserInfo_created,
                         value=guild_config["language"].cmdUserInfo_day.format(created, account_seniority),
                         inline=False)
         embed.add_field(name=guild_config["language"].cmdUserInfo_joined,
                         value=guild_config["language"].cmdUserInfo_day.format(joined, guild_seniority),
+                        inline=False)
+        embed.add_field(name=guild_config["language"].cmdUserInfo_score,
+                        value=f'{user_score["score"]}/20',
                         inline=False)
 
         # Send embed

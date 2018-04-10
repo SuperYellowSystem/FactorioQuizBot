@@ -50,11 +50,11 @@ def localization(self):
     self.cmdServerInfo_roles = "Rôles"
 
     # user_info command
-    self.cmdUserInfo_name = "{0}\n({1})"
     self.cmdUserInfo_created = "Compte créé le"
     self.cmdUserInfo_joined = "Membre depuis le"
     self.cmdUserInfo_footer = "Information utilisateur"
-    self.cmdUserInfo_day = "{0}\n({1} jours auparavant)"
+    self.cmdUserInfo_day = "{0} (Il y a {1} jours)"
+    self.cmdUserInfo_score = "Meilleur score"
     self.cmdUserInfo_badArgs = "Je ne peux pas trouver ce membre..."
     self.cmdUserInfo_missArgs = "Euuuuuhhh... Ils sont où les paramètres?!?"
 

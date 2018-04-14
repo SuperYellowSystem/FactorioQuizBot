@@ -1,6 +1,10 @@
 ## FactorioQuizBot
 FactorioQuizBot is a discord bot that uses [Rapptz's discord.py](https://github.com/Rapptz/discord.py). This bot will challenge your knowledges about the game Factorio.
 
+## Special thanks to
+[arielbeje](https://github.com/arielbeje/uBot) for his factorio cogs.
+Strawberrypie who write most of the question's quiz
+
 ## Requirements
 * Python 3.6 or higher with modules:
     * psutil

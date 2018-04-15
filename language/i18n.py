@@ -27,6 +27,11 @@ class I18N:
         self.cmdHelp_userInfo = None
         self.cmdHelp_botInfo = None
         self.cmdHelp_startQuiz = None
+        self.cmdHelp_startExam = None
+        self.cmdHelp_config = None
+        self.cmdHelp_edit = None
+        self.cmdHelp_linkmod = None
+        self.cmdHelp_wiki = None
 
         self.cmdHelp_loadExt = None
         self.cmdHelp_unloadExt = None
@@ -36,6 +41,11 @@ class I18N:
         self.cmdHelp_userInfoExt = None
         self.cmdHelp_botInfoExt = None
         self.cmdHelp_startQuizExt = None
+        self.cmdHelp_startExamExt = None
+        self.cmdHelp_configExt = None
+        self.cmdHelp_editExt = None
+        self.cmdHelp_linkmodExt = None
+        self.cmdHelp_wikiExt = None
 
         self.cmdPing_ping = None
         self.cmdPing_pong = None

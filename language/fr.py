@@ -6,6 +6,7 @@ def localization(self):
 
     # Support command ==============================================
     self.cmdHelp_alias = "\nalias   :: "
+
     # help / Admin
     self.cmdHelp_load = "Active un module."
     self.cmdHelp_loadExt = "usage   :: load <command>#\ndétails :: Active un module."
@@ -31,10 +32,30 @@ def localization(self):
     # help / Support
 
     # help / Quiz
-    self.cmdHelp_startQuiz = "Démarre le quiz d'entraînement"
+    self.cmdHelp_startQuiz = "Démarre le quiz d'entraînement."
     self.cmdHelp_startQuizExt = "usage   :: startquiz#\ndétails :: Cette commande permet de démarrer un quiz " \
                                 "d'entraînement. Tout le monde peut y participer, mais seul le plus rapide pourra " \
                                 "y répondre."
+    self.cmdHelp_startExam = "Démarre la session d'examen."
+    self.cmdHelp_startExamExt = "usage   :: startExam#\ndétails :: Cette commande permet de démarrer la session " \
+                                "d'examen. Cet examen est individuel et le participant peut évaluer ses connaissances" \
+                                " sur le jeu Factorio."
+
+    # help / Admin
+    self.cmdHelp_config = "Affiche la configuration du serveur."
+    self.cmdHelp_configExt = "usage   :: config#\ndétails :: Cette commande permet d'afficher la configuration du " \
+                             "serveur."
+    self.cmdHelp_edit = "Edite al configuration du serveur."
+    self.cmdHelp_editExt = "usage   :: edit <option>#\ndétails :: Cette commande permet de modifier la configuration " \
+                           "du serveur."
+
+    # help / Factorio
+    self.cmdHelp_linkmod = "Donne un lien vers un mod spécifié."
+    self.cmdHelp_linkmodExt = "usage   :: linkmod <nom du mod>#\ndétails :: Cette commande permet de donner un lien " \
+                              "vers un mod spécifié."
+    self.cmdHelp_wiki = "Effectue une recherche dans le Wiki de Factorio."
+    self.cmdHelp_wikiExt = "usage   :: wiki <mots clés>#\ndétails :: Cette commande permet d'effectuer une recherche " \
+                           "dans le wiki de Factorio et affiche les liens en rapport avec la recherche."
 
     # General command ==============================================
     # Ping command

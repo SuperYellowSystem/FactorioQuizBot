@@ -27,7 +27,7 @@ class QuizItem:
     """
     This class represent an item(question) of the quiz.
     """
-    def __init__(self, i18n, qid, question, answers, solution, difficulty):
+    def __init__(self, i18n, qid, question, answers, solution, difficulty, domain):
         """
         Create a simple item with question/answer information
 
@@ -36,34 +36,36 @@ class QuizItem:
         :param answers: an array with multiple answers
         :param solution: the index of the correct answer
         :param difficulty: the difficulty of the question
+        :param domain: the theme the question belong
         """
         self.i18n = i18n
-        self.__qid = qid
-        self.__question = question
-        self.__answers = answers
-        self.__solution = solution
-        self.__difficulty = difficulty
+        self._qid = qid
+        self._question = question
+        self._answers = answers
+        self._solution = solution
+        self._difficulty = difficulty
+        self._domain = domain
 
     def create_item_embed(self):
         time = datetime.datetime.now(get_localzone())
-        embed = Embed(colour=3447003, timestamp=time)
+        embed = Embed(colour=3447003, timestamp=time, title=f'{self._qid}/ {self._domain}')
         answer_code = ord('A')
         output_answers = ""
-        for answer in self.__answers:
+        for answer in self._answers:
             output_answers += f'{chr(answer_code)}: {answer}     '
             answer_code += 1
-        embed.add_field(name=f'{self.__qid}/ {self.__question}', value=output_answers)
-        embed.set_footer(text=f'{self.i18n.cmdQuizList_difficulty}: {self.__difficulty}')
+        embed.add_field(name=f'{self._question}', value=output_answers)
+        embed.set_footer(text=f'{self.i18n.cmdQuizList_difficulty}: {self._difficulty}')
         return embed
 
     def get_solution(self):
-        return solution_index.get(self.__solution)
+        return solution_index.get(self._solution)
 
     def get_nb_answers(self):
-        return len(self.__answers)
+        return len(self._answers)
 
     def get_difficulty(self):
-        return self.__difficulty
+        return self._difficulty
 
 
 # ======================================================================
@@ -89,7 +91,7 @@ class QuizList:
             index = path.find("/cogs")
         file = f'{path[:index]}/questions/QCM_Factorio_{i18n.get_language()}.xlsx'
         wb = load_workbook(filename=file, read_only=True)
-        ws = wb['quiz']
+        ws = wb['Quiz']
         for row in range(1, ws.max_row):
             qid = ws.cell(row=row + 1, column=1).value
             question = ws.cell(row=row + 1, column=2).value
@@ -100,21 +102,23 @@ class QuizList:
             solution = ws.cell(row=row + 1, column=7).value
             answer_total = ws.cell(row=row + 1, column=8).value
             difficulty = ws.cell(row=row + 1, column=9).value
+            domain = ws.cell(row=row + 1, column=10).value
             if self.__diff1 is None and difficulty == 2:
                 self.__diff1 = qid - 1
             elif self.__diff2 is None and difficulty == 3:
                 self.__diff2 = qid - 1
 
-            if answer_total < 4:
-                answers = [answer1, answer2]
-            else:
-                answers = [answer1, answer2, answer3, answer4]
-            self.__item_list.append(QuizItem(i18n, qid, question, answers, solution, difficulty))
+            answers = [answer1, answer2]
+            if answer_total > 2:
+                answers.append(answer3)
+            if answer_total > 3:
+                answers.append(answer4)
+            self.__item_list.append(QuizItem(i18n, qid, question, answers, solution, difficulty, domain))
 
         if is_exam:
-            self.__item_list = [*random.sample(self.__item_list[:self.__diff1], 7),
-                                *random.sample(self.__item_list[self.__diff1:self.__diff2], 5),
-                                *random.sample(self.__item_list[self.__diff2:], 8)]
+            self.__item_list = [*random.sample(self.__item_list[:self.__diff1], 6),
+                                *random.sample(self.__item_list[self.__diff1:self.__diff2], 7),
+                                *random.sample(self.__item_list[self.__diff2:], 7)]
 
     def select_next_item(self):
         self.__index += 1

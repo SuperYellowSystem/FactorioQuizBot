@@ -82,9 +82,8 @@ class Quiz:
                             or i18n.cmdStartTrain_started in m.content:
                         return True
                     for embed in m.embeds:
-                        for field in embed.fields:
-                            if "/" in field.name:
-                                return True
+                        if "/" in embed.title:
+                            return True
                     return False
                 # Else check if msg is the cmd which start quiz
                 for cmd in ctx.bot.get_cog_commands("Quiz"):

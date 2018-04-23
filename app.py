@@ -11,7 +11,7 @@ import os
 import logging
 from cogs.utils.database import Database
 
-initial_cogs = {"cogs.admin", "cogs.general", "cogs.support", "cogs.quiz", "cogs.owner", "cogs.factorio"}
+initial_cogs = {"cogs.admin", "cogs.general", "cogs.support", "cogs.quiz", "cogs.owner", "cogs.factorio", "cogs.faq"}
 
 # ======================================================================
 logLevelDict = {
@@ -119,6 +119,10 @@ class FactorioQuizBot(commands.Bot):
         # Remove config
         self.db.configs = [cfg for cfg in self.db.configs if guild.id != cfg["guild_id"]]
         self.db.delete_config(guild.id)
+
+        # Remove faq
+        self.db.faqs = [faq for faq in self.db.faqs if guild.id != faq["guild_id"]]
+        self.db.delete_faq(guild.id)
 
     async def on_member_join(self, member):
         """Event called when a member joins a guild."""

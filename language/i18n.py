@@ -18,6 +18,7 @@ class I18N:
         self.dateTimeFormat = None
 
         # Attributes declaration
+        self.cmdHelp_details = None
         self.cmdHelp_alias = None
         self.cmdHelp_load = None
         self.cmdHelp_unload = None
@@ -32,6 +33,7 @@ class I18N:
         self.cmdHelp_edit = None
         self.cmdHelp_linkmod = None
         self.cmdHelp_wiki = None
+        self.cmdHelp_faq = None
 
         self.cmdHelp_loadExt = None
         self.cmdHelp_unloadExt = None
@@ -46,6 +48,7 @@ class I18N:
         self.cmdHelp_editExt = None
         self.cmdHelp_linkmodExt = None
         self.cmdHelp_wikiExt = None
+        self.cmdHelp_faqExt = None
 
         self.cmdPing_ping = None
         self.cmdPing_pong = None

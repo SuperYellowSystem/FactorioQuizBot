@@ -51,7 +51,7 @@ class Support:
 
         if command is None:
             # Displays help message
-            msg = f"= Command List =\n\n[Use {ctx.prefix}help <commandname> for details]\n"
+            msg = guild_config["language"].cmdHelp_details.format(ctx.prefix)
             for name in ctx.bot.cogs:
                 # Do not display admin command if user is not owner
                 if name == "Admin" and not ctx.bot.is_owner(ctx.author):

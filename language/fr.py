@@ -5,6 +5,7 @@ def localization(self):
     self.dateTimeFormat = "%d/%m/%Y à %H:%M:%S"
 
     # Support command ==============================================
+    self.cmdHelp_details = "= Liste des commandes =\n\n[{0}help <commande> pour plus de détails]\n"
     self.cmdHelp_alias = "\nalias   :: "
 
     # help / Admin
@@ -56,6 +57,11 @@ def localization(self):
     self.cmdHelp_wiki = "Effectue une recherche dans le Wiki de Factorio."
     self.cmdHelp_wikiExt = "usage   :: wiki <mots clés>#\ndétails :: Cette commande permet d'effectuer une recherche " \
                            "dans le wiki de Factorio et affiche les liens en rapport avec la recherche."
+
+    # help / FAQ
+    self.cmdHelp_faq = "Montre la liste des tags FAQ."
+    self.cmdHelp_faqExt = "usage   :: faq [tag]#\ndétails :: Cette commande permet d'afficher la liste de tag " \
+                          "disponible. Si un tag est spécifié, alors affiche les information concernant ce tag."
 
     # General command ==============================================
     # Ping command

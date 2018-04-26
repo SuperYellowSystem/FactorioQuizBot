@@ -5,6 +5,7 @@ def localization(self):
     self.dateTimeFormat = "%d/%m/%Y à %H:%M:%S"
 
     # Support command ==============================================
+    self.cmdHelp_details = "= Command List =\n\n[Use {0}help <commandname> for details]\n"
     self.cmdHelp_alias = "\naliases:: "
 
     # help / Admin
